@@ -1,0 +1,51 @@
+This is BibTeX, Version 0.99d (TeX Live 2019/Debian)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: references.aux
+The style file: mnras.bst
+Database file #1: refs.bib
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Warning--can't use both author and editor fields in Nather1985
+Warning--empty school in Provencal1994
+You've used 94 entries,
+            2881 wiz_defined-function locations,
+            1514 strings with 40951 characters,
+and the built_in function-call counts, 43449 in all, are:
+= -- 3650
+> -- 3169
+< -- 135
++ -- 1385
+- -- 474
+* -- 5295
+:= -- 6745
+add.period$ -- 0
+call.type$ -- 94
+change.case$ -- 188
+chr.to.int$ -- 86
+cite$ -- 96
+duplicate$ -- 2161
+empty$ -- 2127
+format.name$ -- 758
+if$ -- 7604
+int.to.chr$ -- 9
+int.to.str$ -- 0
+missing$ -- 93
+newline$ -- 296
+num.names$ -- 576
+pop$ -- 455
+preamble$ -- 1
+purify$ -- 376
+quote$ -- 0
+skip$ -- 1324
+stack$ -- 0
+substring$ -- 2575
+swap$ -- 952
+text.length$ -- 379
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 843
+warning$ -- 2
+while$ -- 648
+width$ -- 0
+write$ -- 953
+(There were 2 warnings)

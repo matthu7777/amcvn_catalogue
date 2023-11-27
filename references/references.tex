@@ -1,0 +1,262 @@
+% mnras_template.tex 
+%
+% LaTeX template for creating an MNRAS paper
+%
+% v3.0 released 14 May 2015
+% (version numbers match those of mnras.cls)
+%
+% Copyright (C) Royal Astronomical Society 2015
+% Authors:
+% Keith T. Smith (Royal Astronomical Society)
+
+% Change log
+%
+% v3.2 July 2023
+%	Updated guidance on use of amssymb package
+% v3.0 May 2015
+%    Renamed to match the new package name
+%    Version number matches mnras.cls
+%    A few minor tweaks to wording
+% v1.0 September 2013
+%    Beta testing only - never publicly released
+%    First version: a simple (ish) template for creating an MNRAS paper
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Basic setup. Most papers should leave these options alone.
+\documentclass[fleqn,usenatbib]{mnras}
+
+% MNRAS is set in Times font. If you don't have this installed (most LaTeX
+% installations will be fine) or prefer the old Computer Modern fonts, comment
+% out the following line
+%\usepackage{newtxtext,newtxmath}
+% Depending on your LaTeX fonts installation, you might get better results with one of these:
+%\usepackage{mathptmx}
+%\usepackage{txfonts}
+
+% Use vector fonts, so it zooms properly in on-screen viewing software
+% Don't change these lines unless you know what you are doing
+\usepackage[T1]{fontenc}
+
+% Allow "Thomas van Noord" and "Simon de Laguarde" and alike to be sorted by "N" and "L" etc. in the bibliography.
+% Write the name in the bibliography as "\VAN{Noord}{Van}{van} Noord, Thomas"
+\DeclareRobustCommand{\VAN}[3]{#2}
+\let\VANthebibliography\thebibliography
+\def\thebibliography{\DeclareRobustCommand{\VAN}[3]{##3}\VANthebibliography}
+
+
+%%%%% AUTHORS - PLACE YOUR OWN PACKAGES HERE %%%%%
+
+% Only include extra packages if you really need them. Avoid using amssymb if newtxmath is enabled, as these packages can cause conflicts. newtxmatch covers the same math symbols while producing a consistent Times New Roman font. Common packages are:
+\usepackage{graphicx}	% Including figure files
+\usepackage{amsmath}	% Advanced maths commands
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%% AUTHORS - PLACE YOUR OWN COMMANDS HERE %%%%%
+
+% Please keep new commands to a minimum, and use \newcommand not \def to avoid
+% overwriting existing commands. Example:
+%\newcommand{\pcm}{\,cm$^{-2}$}	% per cm-squared
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%% TITLE PAGE %%%%%%%%%%%%%%%%%%%
+
+% Title of the paper, and the short title which is used in the headers.
+% Keep the title short and informative.
+\title[AM\,CVn-type Binary Systems]{Reference Table: The Catalogue of AM\,CVn Binary Systems}
+
+% The list of authors, and the short list which is used in the headers.
+% If you need two or more lines of authors, add an extra line using \newauthor
+\author[Matthew J. Green et al.]{
+Matthew J. Green$^{1,2}$\thanks{E-mail: mjgreenastro@gmail.com}
+\\
+% List of institutions
+$^{1}$School of Physics and Astronomy, Tel-Aviv University, Tel-Aviv 6997801, Israel\\
+$^{2}$Max-Planck-Institut für Astronomie, Königstuhl 17, D-69117 Heidelberg, Germany\\
+}
+
+% These dates will be filled out by the publisher
+\date{Accepted XXX. Received YYY; in original form ZZZ}
+
+% Enter the current year, for the copyright statements etc.
+\pubyear{2023}
+
+% Don't change these lines
+\begin{document}
+\label{firstpage}
+\pagerange{\pageref{firstpage}--\pageref{lastpage}}
+\maketitle
+
+% Abstract of the paper
+\begin{abstract}
+This document lists the references for a catalogue of all known AM\,CVn-type binary systems. It is intended to be included alongside the catalogue itself.
+\end{abstract}
+
+% Select between one and six entries from the list of approved keywords.
+% Don't make up new ones.
+\begin{keywords}
+keyword1 -- keyword2 -- keyword3
+\end{keywords}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%% BODY OF PAPER %%%%%%%%%%%%%%%%%%
+
+
+
+
+\section{References}
+
+References in the catalogue are given in the form [Authorname][Year]. 
+If the full citation is needed, it can be found in the references section of this document.
+The table on the next page lists all references used in the catalogue.
+
+
+\begin{table}
+\caption{References used in the catalogue.}
+\begin{tabular}{lc}
+Abbreviation & Reference\\
+\hline
+Abbott1992 & \citet{Abbott1992}\\
+Anderson2005 & \citet{Anderson2005}\\
+Anderson2008 & \citet{Anderson2008}\\
+Armstrong2012 & \citet{Armstrong2012}\\
+Aydi2021 & \citet{Aydi2021}\\
+Barros2007 & \citet{Barros2007}\\
+Breedt2014 & \citet{Breedt2014}\\
+Burdge2020 & \citet{Burdge2020}\\
+Campbell2015 & \citet{Campbell2015}\\
+Carter2013 & \citet{Carter2013}\\
+Carter2014a & \citet{Carter2014a}\\
+Carter2014b & \citet{Carter2014b}\\
+Copperwheat2011a & \citet{Copperwheat2011a}\\
+Copperwheat2011b & \citet{Copperwheat2011b}\\
+Cropper1998 & \citet{Cropper1998}\\
+Denisenko2014 & \citet{Denisenko2014}\\
+Espaillat2005 & \citet{Espaillat2005}\\
+Fontaine2011 & \citet{Fontaine2011}\\
+Green2018a & \citet{Green2018a}\\
+Green2018b & \citet{Green2018b}\\
+Green2019 & \citet{Green2019}\\
+Green2020 & \citet{Green2020}\\
+Harvey1998 & \citet{Harvey1998}\\
+Inight2023a & \citet{Inight2023a}\\
+Inight2023b & \citet{Inight2023b}\\
+Isogai2016 & \citet{Isogai2016}\\
+Isogai2019 & \citet{Isogai2019}\\
+Isogai2021 & \citet{Isogai2021}\\
+Israel1999 & \citet{Israel1999}\\
+Israel2002 & \citet{Israel2002}\\
+Jha1998 & \citet{Jha1998}\\
+Kato2015 & \citet{Kato2015}\\
+Kato2021 & \citet{Kato2021}\\
+Kato2023a & \citet{Kato2023a}\\
+Kato2023b & \citet{Kato2023b}\\
+Kepler2016 & \citet{Kepler2016}\\
+Kong2018 & \citet{Kong2018}\\
+Kupfer2013 & \citet{Kupfer2013}\\
+Kupfer2015 & \citet{Kupfer2015}\\
+Kupfer2016 & \citet{Kupfer2016}\\
+Kupfer2019 & \citet{Kupfer2019}\\
+Levitan2011 & \citet{Levitan2011}\\
+Levitan2013 & \citet{Levitan2013}\\
+Levitan2014 & \citet{Levitan2014}\\
+Levitan2015 & \citet{Levitan2015}\\
+Marcano2021 & \citet{Marcano2021}\\
+Marsh1999 & \citet{Marsh1999}\\
+Marsh2017 & \citet{Marsh2017}\\
+Motch1996 & \citet{Motch1996}\\
+Motsoaledi2021 & \citet{Motsoaledi2021}\\
+Munday2023 & \citet{Munday2023}\\
+Nather1981 & \citet{Nather1981}\\
+Nather1985 & \citet{Nather1985}\\
+Nelemans2001a & \citet{Nelemans2001a}\\
+O'Donoghue1987 & \citet{O'Donoghue1987}\\
+O'Donoghue1994 & \citet{O'Donoghue1994}\\
+Patterson1997 & \citet{Patterson1997}\\
+Patterson2000 & \citet{Patterson2000}\\
+Prieto2014 & \citet{Prieto2014}\\
+Provencal1991 & \citet{Provencal1991}\\
+Provencal1994 & \citet{Provencal1994}\\
+Ramsay2010 & \citet{Ramsay2010}\\
+Rau2010 & \citet{Rau2010}\\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}
+\contcaption{References used in the catalogue.}
+\begin{tabular}{lc}
+Abbreviation & Reference\\
+\hline
+RiveraSandoval2019 & \citet{RiveraSandoval2019}\\
+RiveraSandoval2020 & \citet{RiveraSandoval2020}\\
+RiveraSandoval2021a & \citet{RiveraSandoval2021a}\\
+RiveraSandoval2021b & \citet{RiveraSandoval2021b}\\
+Rodriguez2023 & \citet{Rodriguez2023}\\
+Roelofs2005 & \citet{Roelofs2005}\\
+Roelofs2006a & \citet{Roelofs2006a}\\
+Roelofs2006b & \citet{Roelofs2006b}\\
+Roelofs2007a & \citet{Roelofs2007a}\\
+Roelofs2007b & \citet{Roelofs2007b}\\
+Roelofs2009 & \citet{Roelofs2009}\\
+Roelofs2010 & \citet{Roelofs2010}\\
+RoelofsPhD & \citet{RoelofsPhD}\\
+Ruiz2001 & \citet{Ruiz2001}\\
+Sion2006 & \citet{Sion2006}\\
+Smak1967 & \citet{Smak1967}\\
+Soraisam2023 & \citet{Soraisam2023}\\
+Steeghs2006 & \citet{Steeghs2006}\\
+Szkody2020 & \citet{Szkody2020}\\
+Wagner2014 & \citet{Wagner2014}\\
+Warner1972 & \citet{Warner1972}\\
+Warner2002 & \citet{Warner2002}\\
+Wevers2016 & \citet{Wevers2016}\\
+Wood1987 & \citet{Wood1987}\\
+Wood2002 & \citet{Wood2002}\\
+Woudt2003 & \citet{Woudt2003}\\
+Woudt2004 & \citet{Woudt2004}\\
+Woudt2005 & \citet{Woudt2005}\\
+Woudt2013 & \citet{Woudt2013}\\
+vanRoestel2021 & \citet{vanRoestel2021}\\
+vanRoestel2022 & \citet{vanRoestel2022}\\
+\hline
+\end{tabular}
+\end{table}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%% REFERENCES %%%%%%%%%%%%%%%%%%
+
+% The best way to enter references is to use BibTeX:
+
+\bibliographystyle{mnras}
+\bibliography{refs} % if your bibtex file is called example.bib
+
+
+% Alternatively you could enter them by hand, like this:
+% This method is tedious and prone to error if you have lots of references
+%\begin{thebibliography}{99}
+%\bibitem[\protect\citeauthoryear{Author}{2012}]{Author2012}
+%Author A.~N., 2013, Journal of Improbable Astronomy, 1, 1
+%\bibitem[\protect\citeauthoryear{Others}{2013}]{Others2013}
+%Others S., 2012, Journal of Interesting Stuff, 17, 198
+%\end{thebibliography}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%% APPENDICES %%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% Don't change these lines
+\bsp	% typesetting comment
+\label{lastpage}
+\end{document}
+
+% End of mnras_template.tex

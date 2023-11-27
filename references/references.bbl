@@ -1,0 +1,490 @@
+\begin{thebibliography}{}
+\makeatletter
+\relax
+\def\mn@urlcharsother{\let\do\@makeother \do\$\do\&\do\#\do\^\do\_\do\%\do\~}
+\def\mn@doi{\begingroup\mn@urlcharsother \@ifnextchar [ {\mn@doi@}
+  {\mn@doi@[]}}
+\def\mn@doi@[#1]#2{\def\@tempa{#1}\ifx\@tempa\@empty \href
+  {http://dx.doi.org/#2} {doi:#2}\else \href {http://dx.doi.org/#2} {#1}\fi
+  \endgroup}
+\def\mn@eprint#1#2{\mn@eprint@#1:#2::\@nil}
+\def\mn@eprint@arXiv#1{\href {http://arxiv.org/abs/#1} {{\tt arXiv:#1}}}
+\def\mn@eprint@dblp#1{\href {http://dblp.uni-trier.de/rec/bibtex/#1.xml}
+  {dblp:#1}}
+\def\mn@eprint@#1:#2:#3:#4\@nil{\def\@tempa {#1}\def\@tempb {#2}\def\@tempc
+  {#3}\ifx \@tempc \@empty \let \@tempc \@tempb \let \@tempb \@tempa \fi \ifx
+  \@tempb \@empty \def\@tempb {arXiv}\fi \@ifundefined
+  {mn@eprint@\@tempb}{\@tempb:\@tempc}{\expandafter \expandafter \csname
+  mn@eprint@\@tempb\endcsname \expandafter{\@tempc}}}
+
+\bibitem[\protect\citeauthoryear{Abbott, Robinson, Hill  \& Haswell}{Abbott
+  et~al.}{1992}]{Abbott1992}
+Abbott T. M.~C.,  Robinson E.~L.,  Hill G.~J.,   Haswell C.~A.,  1992, \mn@doi
+  [The Astrophysical Journal] {10.1086/171960}, 399, 680
+
+\bibitem[\protect\citeauthoryear{Anderson et~al.,}{Anderson
+  et~al.}{2005}]{Anderson2005}
+Anderson S.~F.,  et~al., 2005, The Astronomical Journal, 130, 2230
+
+\bibitem[\protect\citeauthoryear{Anderson et~al.,}{Anderson
+  et~al.}{2008}]{Anderson2008}
+Anderson S.~F.,  et~al., 2008, \mn@doi [The Astronomical Journal]
+  {10.1088/0004-6256/135/6/2108}, 135, 2108
+
+\bibitem[\protect\citeauthoryear{Armstrong, Patterson  \& Kemp}{Armstrong
+  et~al.}{2012}]{Armstrong2012}
+Armstrong E.,  Patterson J.,   Kemp J.,  2012, \mn@doi [Monthly Notices of the
+  Royal Astronomical Society] {10.1111/j.1365-2966.2012.20463.x}, 421, 2310
+
+\bibitem[\protect\citeauthoryear{Aydi, Strader, Chomiuk, Kawash, Sokolovsky,
+  Stanek, Kochanek  \& {B. J. Shappee}}{Aydi et~al.}{2021}]{Aydi2021}
+Aydi E.,  Strader J.,  Chomiuk L.,  Kawash A.,  Sokolovsky K.~V.,  Stanek
+  K.~Z.,  Kochanek C.~S.,   {B. J. Shappee} 2021, The Astronomer's Telegram,
+  14405
+
+\bibitem[\protect\citeauthoryear{Barros et~al.,}{Barros
+  et~al.}{2007}]{Barros2007}
+Barros S. C.~C.,  et~al., 2007, \mn@doi [Monthly Notices of the Royal
+  Astronomical Society] {10.1111/j.1365-2966.2006.11244.x}, 374, 1334
+
+\bibitem[\protect\citeauthoryear{Breedt et~al.,}{Breedt
+  et~al.}{2014}]{Breedt2014}
+Breedt E.,  et~al., 2014, \mn@doi [Monthly Notices of the Royal Astronomical
+  Society] {10.1093/mnras/stu1377}, 443, 3174
+
+\bibitem[\protect\citeauthoryear{Burdge et~al.,}{Burdge
+  et~al.}{2020}]{Burdge2020}
+Burdge K.~B.,  et~al., 2020, \mn@doi [Astrophysical Journal Letters]
+  {10.3847/2041-8213/ABCA91}, 905, L7
+
+\bibitem[\protect\citeauthoryear{Campbell et~al.,}{Campbell
+  et~al.}{2015}]{Campbell2015}
+Campbell H.~C.,  et~al., 2015, Monthly Notices of the Royal Astronomical
+  Society, 452, 1060
+
+\bibitem[\protect\citeauthoryear{Carter et~al.,}{Carter
+  et~al.}{2013}]{Carter2013}
+Carter P.~J.,  et~al., 2013, \mn@doi [Monthly Notices of the Royal Astronomical
+  Society] {10.1093/mnras/sts485}, 429, 2143
+
+\bibitem[\protect\citeauthoryear{Carter, Steeghs, Marsh, Kupfer, Copperwheat,
+  Groot  \& Nelemans}{Carter et~al.}{2014a}]{Carter2014a}
+Carter P.~J.,  Steeghs D.,  Marsh T.~R.,  Kupfer T.,  Copperwheat C.~M.,  Groot
+  P.~J.,   Nelemans G.,  2014a, \mn@doi [Monthly Notices of the Royal
+  Astronomical Society] {10.1093/mnras/stt2103}, 437, 2894
+
+\bibitem[\protect\citeauthoryear{Carter et~al.,}{Carter
+  et~al.}{2014b}]{Carter2014b}
+Carter P.~J.,  et~al., 2014b, \mn@doi [Monthly Notices of the Royal
+  Astronomical Society] {10.1093/mnras/stu142}, 439, 2848
+
+\bibitem[\protect\citeauthoryear{Copperwheat et~al.,}{Copperwheat
+  et~al.}{2011a}]{Copperwheat2011a}
+Copperwheat C.~M.,  et~al., 2011a, \mn@doi [Monthly Notices of the Royal
+  Astronomical Society] {10.1111/j.1365-2966.2010.17508.x}, 410, 1113
+
+\bibitem[\protect\citeauthoryear{Copperwheat et~al.,}{Copperwheat
+  et~al.}{2011b}]{Copperwheat2011b}
+Copperwheat C.~M.,  et~al., 2011b, \mn@doi [Monthly Notices of the Royal
+  Astronomical Society] {10.1111/j.1365-2966.2011.18382.x}, 413, 3068
+
+\bibitem[\protect\citeauthoryear{Cropper, Harrop-Allin, Mason, Mittaz, Potter
+  \& Ramsay}{Cropper et~al.}{1998}]{Cropper1998}
+Cropper M.,  Harrop-Allin M.~K.,  Mason K.~O.,  Mittaz J. P.~D.,  Potter S.~B.,
+    Ramsay G.,  1998, \mn@doi [Monthly Notices of the Royal Astronomical
+  Society] {10.1046/j.1365-8711.1998.01297.x}, 293, L57
+
+\bibitem[\protect\citeauthoryear{Denisenko et~al.,}{Denisenko
+  et~al.}{2014}]{Denisenko2014}
+Denisenko D.,  et~al., 2014, The Astronomer's Telegram, 6857, 1
+
+\bibitem[\protect\citeauthoryear{Espaillat, Patterson, Warner  \&
+  Woudt}{Espaillat et~al.}{2005}]{Espaillat2005}
+Espaillat C.,  Patterson J.,  Warner B.,   Woudt P.,  2005, \mn@doi
+  [Publications of the Astronomical Society of the Pacific] {10.1086/427959},
+  117, 189
+
+\bibitem[\protect\citeauthoryear{Fontaine et~al.,}{Fontaine
+  et~al.}{2011}]{Fontaine2011}
+Fontaine G.,  et~al., 2011, \mn@doi [The Astrophysical Journal]
+  {10.1088/0004-637X/726/2/92}, 726, 92
+
+\bibitem[\protect\citeauthoryear{Green et~al.,}{Green
+  et~al.}{2018a}]{Green2018a}
+Green M.~J.,  et~al., 2018a, \mn@doi [Monthly Notices of the Royal Astronomical
+  Society] {10.1093/mnras/sty299}, 476, 1663
+
+\bibitem[\protect\citeauthoryear{Green et~al.,}{Green
+  et~al.}{2018b}]{Green2018b}
+Green M.~J.,  et~al., 2018b, \mn@doi [Monthly Notices of the Royal Astronomical
+  Society] {10.1093/mnras/sty1032}, 477, 5646
+
+\bibitem[\protect\citeauthoryear{Green et~al.,}{Green et~al.}{2019}]{Green2019}
+Green M.~J.,  et~al., 2019, \mn@doi [Monthly Notices of the Royal Astronomical
+  Society] {10.1093/mnras/stz469}, 485, 1947
+
+\bibitem[\protect\citeauthoryear{Green et~al.,}{Green et~al.}{2020}]{Green2020}
+Green M.~J.,  et~al., 2020, \mn@doi [Monthly Notices of the Royal Astronomical
+  Society] {10.1093/MNRAS/STAA1509}, 496, 1243
+
+\bibitem[\protect\citeauthoryear{Harvey, Skillman, Kemp, Patterson, Vanmunster,
+  Fried  \& Retter}{Harvey et~al.}{1998}]{Harvey1998}
+Harvey D.~A.,  Skillman D.~R.,  Kemp J.,  Patterson J.,  Vanmunster T.,  Fried
+  R.~E.,   Retter A.,  1998, \mn@doi [The Astrophysical Journal]
+  {10.1086/311143}, 493, L105
+
+\bibitem[\protect\citeauthoryear{Inight et~al.,}{Inight
+  et~al.}{2023a}]{Inight2023a}
+Inight K.,  et~al., 2023a, \mn@doi [Monthly Notices of the Royal Astronomical
+  Society] {10.1093/MNRAS/STAD2018}, 524, 4867
+
+\bibitem[\protect\citeauthoryear{Inight et~al.,}{Inight
+  et~al.}{2023b}]{Inight2023b}
+Inight K.,  et~al., 2023b, Arxiv, 2305.13371, 1
+
+\bibitem[\protect\citeauthoryear{Isogai et~al.,}{Isogai
+  et~al.}{2016}]{Isogai2016}
+Isogai K.,  et~al., 2016, Publications of the Astronomical Society of Japan,
+  68, 64
+
+\bibitem[\protect\citeauthoryear{Isogai, Kato, Monard, Hambsch, Myers, Starr,
+  Cook  \& Nogami}{Isogai et~al.}{2019}]{Isogai2019}
+Isogai K.,  Kato T.,  Monard B.,  Hambsch F.-J.,  Myers G.,  Starr P.,  Cook
+  L.~M.,   Nogami D.,  2019, eprint arXiv:1901.11425
+
+\bibitem[\protect\citeauthoryear{Isogai et~al.,}{Isogai
+  et~al.}{2021}]{Isogai2021}
+Isogai K.,  et~al., 2021, The Astronomer's Telegram, 14390
+
+\bibitem[\protect\citeauthoryear{Israel, Panzera, Campana, Lazzati, Covino,
+  Tagliaferri  \& Stella}{Israel et~al.}{1999}]{Israel1999}
+Israel G.~L.,  Panzera M.~R.,  Campana S.,  Lazzati D.,  Covino S.,
+  Tagliaferri G.,   Stella L.,  1999, Astronomy and Astrophysics, 349, L1
+
+\bibitem[\protect\citeauthoryear{Israel et~al.,}{Israel
+  et~al.}{2002}]{Israel2002}
+Israel G.~L.,  et~al., 2002, \mn@doi [Astronomy and Astrophysics]
+  {10.1051/0004-6361:20020314}, 386, L13
+
+\bibitem[\protect\citeauthoryear{Jha, Garnavich, Challis, Kirshner  \&
+  Berlind}{Jha et~al.}{1998}]{Jha1998}
+Jha S.,  Garnavich P.,  Challis P.,  Kirshner R.,   Berlind P.,  1998,
+  International Astronomical Union Circular, 6983, 1
+
+\bibitem[\protect\citeauthoryear{Kato}{Kato}{2023a}]{Kato2023a}
+Kato T.,  2023a, arXiv, p. arXiv:2302.11148
+
+\bibitem[\protect\citeauthoryear{Kato}{Kato}{2023b}]{Kato2023b}
+Kato T.,  2023b, \mn@doi [arXiv] {10.48550/ARXIV.2307.08954}, p.
+  arXiv:2307.08954
+
+\bibitem[\protect\citeauthoryear{Kato \& Kojiguchi}{Kato \&
+  Kojiguchi}{2021}]{Kato2021}
+Kato T.,  Kojiguchi N.,  2021, \mn@doi [Publications of the Astronomical
+  Society of Japan] {10.1093/pasj/psab080}, 73, 1375
+
+\bibitem[\protect\citeauthoryear{Kato, Hambsch  \& Monard}{Kato
+  et~al.}{2015}]{Kato2015}
+Kato T.,  Hambsch F.-J.,   Monard B.,  2015, \mn@doi [Publications of the
+  Astronomical Society of Japan] {10.1093/pasj/psv010}, 67, L2
+
+\bibitem[\protect\citeauthoryear{Kepler, Koester, Romero, Ourique  \&
+  Pelisoli}{Kepler et~al.}{2016}]{Kepler2016}
+Kepler S.~O.,  Koester D.,  Romero A.~D.,  Ourique G.,   Pelisoli I.,  2016,
+  Monthly Notices of the Royal Astronomical Society, 455, 3413
+
+\bibitem[\protect\citeauthoryear{Kong, Luo, Li, Wang, Li  \& Zhao}{Kong
+  et~al.}{2018}]{Kong2018}
+Kong X.,  Luo A.-L.,  Li X.-R.,  Wang Y.-F.,  Li Y.-B.,   Zhao J.-K.,  2018,
+  \mn@doi [Publications of the Astronomical Society of the Pacific]
+  {10.1088/1538-3873/aac7a8}, 130, 084203
+
+\bibitem[\protect\citeauthoryear{Kupfer, Groot, Levitan, Steeghs, Marsh, Rutten
+   \& Nelemans}{Kupfer et~al.}{2013}]{Kupfer2013}
+Kupfer T.,  Groot P.~J.,  Levitan D.,  Steeghs D.,  Marsh T.~R.,  Rutten R.
+  G.~M.,   Nelemans G.,  2013, \mn@doi [Monthly Notices of the Royal
+  Astronomical Society] {10.1093/mnras/stt524}, 432, 2048
+
+\bibitem[\protect\citeauthoryear{Kupfer et~al.,}{Kupfer
+  et~al.}{2015}]{Kupfer2015}
+Kupfer T.,  et~al., 2015, \mn@doi [Monthly Notices of the Royal Astronomical
+  Society] {10.1093/mnras/stv1609}, 453, 483
+
+\bibitem[\protect\citeauthoryear{Kupfer, Steeghs, Groot, Marsh, Nelemans  \&
+  Roelofs}{Kupfer et~al.}{2016}]{Kupfer2016}
+Kupfer T.,  Steeghs D.,  Groot P.~J.,  Marsh T.~R.,  Nelemans G.,   Roelofs G.
+  H.~A.,  2016, \mn@doi [Monthly Notices of the Royal Astronomical Society]
+  {10.1093/mnras/stw126}, 457, 1828
+
+\bibitem[\protect\citeauthoryear{Kupfer, Breedt, Ramsay, Hodgkin  \&
+  Marsh}{Kupfer et~al.}{2019}]{Kupfer2019}
+Kupfer T.,  Breedt E.,  Ramsay G.,  Hodgkin S.,   Marsh T.,  2019, The
+  Astronomer's Telegram, 12558, 1
+
+\bibitem[\protect\citeauthoryear{Levitan et~al.,}{Levitan
+  et~al.}{2011}]{Levitan2011}
+Levitan D.,  et~al., 2011, \mn@doi [The Astrophysical Journal]
+  {10.1088/0004-637X/739/2/68}, 739, 68
+
+\bibitem[\protect\citeauthoryear{Levitan et~al.,}{Levitan
+  et~al.}{2013}]{Levitan2013}
+Levitan D.,  et~al., 2013, \mn@doi [Monthly Notices of the Royal Astronomical
+  Society] {10.1093/mnras/sts672}, 430, 996
+
+\bibitem[\protect\citeauthoryear{Levitan et~al.,}{Levitan
+  et~al.}{2014}]{Levitan2014}
+Levitan D.,  et~al., 2014, \mn@doi [The Astrophysical Journal]
+  {10.1088/0004-637X/785/2/114}, 785, 114
+
+\bibitem[\protect\citeauthoryear{Levitan, Groot, Prince, Kulkarni, Laher, Ofek,
+  Sesar  \& Surace}{Levitan et~al.}{2015}]{Levitan2015}
+Levitan D.,  Groot P.~J.,  Prince T.~A.,  Kulkarni S.~R.,  Laher R.,  Ofek
+  E.~O.,  Sesar B.,   Surace J.,  2015, \mn@doi [Monthly Notices of the Royal
+  Astronomical Society] {10.1093/mnras/stu2105}, 446, 391
+
+\bibitem[\protect\citeauthoryear{Marsh}{Marsh}{1999}]{Marsh1999}
+Marsh T.~R.,  1999, \mn@doi [Monthly Notices of the Royal Astronomical Society]
+  {10.1046/j.1365-8711.1999.02323.x}, 304, 443
+
+\bibitem[\protect\citeauthoryear{Marsh, Parsons  \& Dhillon}{Marsh
+  et~al.}{2017}]{Marsh2017}
+Marsh T.,  Parsons S.,   Dhillon V.,  2017, The Astronomer's Telegram, 10354
+
+\bibitem[\protect\citeauthoryear{Motch, Haberl, Guillout, Pakull, Reinsch  \&
+  Krautter}{Motch et~al.}{1996}]{Motch1996}
+Motch C.,  Haberl F.,  Guillout P.,  Pakull M.,  Reinsch K.,   Krautter J.,
+  1996, Astronomy and Astrophysics, 307, 459
+
+\bibitem[\protect\citeauthoryear{Motsoaledi et~al.,}{Motsoaledi
+  et~al.}{2021}]{Motsoaledi2021}
+Motsoaledi M.,  et~al., 2021, The Astronomer's Telegram, 14421
+
+\bibitem[\protect\citeauthoryear{Munday et~al.,}{Munday
+  et~al.}{2023}]{Munday2023}
+Munday J.,  et~al., 2023, \mn@doi [Monthly Notices of the Royal Astronomical
+  Society] {10.1093/mnras/stac3385}, 518, 5123
+
+\bibitem[\protect\citeauthoryear{Nather}{Nather}{1985}]{Nather1985}
+Nather R.~E.,  1985, {Interacting Binaries}.
+D. Reidel, Dordrecht
+
+\bibitem[\protect\citeauthoryear{Nather, Robinson  \& Stover}{Nather
+  et~al.}{1981}]{Nather1981}
+Nather R.~E.,  Robinson E.~L.,   Stover R.~J.,  1981, \mn@doi [The
+  Astrophysical Journal] {10.1086/158704}, 244, 269
+
+\bibitem[\protect\citeauthoryear{Nelemans, Steeghs  \& Groot}{Nelemans
+  et~al.}{2001}]{Nelemans2001a}
+Nelemans G.,  Steeghs D.,   Groot P.~J.,  2001, \mn@doi [Monthly Notices of the
+  Royal Astronomical Society] {10.1046/j.1365-8711.2001.04614.x}, 326, 621
+
+\bibitem[\protect\citeauthoryear{O'Donoghue, Menzies  \& Hill}{O'Donoghue
+  et~al.}{1987}]{O'Donoghue1987}
+O'Donoghue D.,  Menzies J.~W.,   Hill P.~W.,  1987, \mn@doi [Monthly Notices of
+  the Royal Astronomical Society] {10.1093/mnras/227.2.347}, 227, 347
+
+\bibitem[\protect\citeauthoryear{O'Donoghue, Kilkenny, Chen, Stobie, Koen,
+  Warner  \& Lawson}{O'Donoghue et~al.}{1994}]{O'Donoghue1994}
+O'Donoghue D.,  Kilkenny D.,  Chen A.,  Stobie R.~S.,  Koen C.,  Warner B.,
+  Lawson W.~A.,  1994, \mn@doi [Monthly Notices of the Royal Astronomical
+  Society] {10.1093/mnras/271.4.910}, 271, 910
+
+\bibitem[\protect\citeauthoryear{Patterson et~al.,}{Patterson
+  et~al.}{1997}]{Patterson1997}
+Patterson J.,  et~al., 1997, \mn@doi [Publications of the Astronomical Society
+  of the Pacific] {10.1086/133982}, 109, 1100
+
+\bibitem[\protect\citeauthoryear{Patterson et~al.,}{Patterson
+  et~al.}{2000}]{Patterson2000}
+Patterson J.,  et~al., 2000, \mn@doi [The Publications of the Astronomical
+  Society of the Pacific] {10.1086/316561}, 112, 625
+
+\bibitem[\protect\citeauthoryear{{Pichardo Marcano}, {Rivera Sandoval},
+  Maccarone  \& Scaringi}{{Pichardo Marcano} et~al.}{2021}]{Marcano2021}
+{Pichardo Marcano} M.,  {Rivera Sandoval} L.~E.,  Maccarone T.~J.,   Scaringi
+  S.,  2021, \mn@doi [Monthly Notices of the Royal Astronomical Society]
+  {10.1093/mnras/stab2685}, 508, 3275
+
+\bibitem[\protect\citeauthoryear{Prieto et~al.,}{Prieto
+  et~al.}{2014}]{Prieto2014}
+Prieto J.~L.,  et~al., 2014, The Astronomer's Telegram, 6475
+
+\bibitem[\protect\citeauthoryear{Provencal}{Provencal}{1994}]{Provencal1994}
+Provencal J.~L.,  1994, PhD thesis, \url
+  {http://adsabs.harvard.edu/abs/1994PhDT........19P}
+
+\bibitem[\protect\citeauthoryear{Provencal et~al.,}{Provencal
+  et~al.}{1991}]{Provencal1991}
+Provencal J.~L.,  et~al., 1991, White Dwarfs, Proceedings of the 7th European
+  Workshop, NATO Advanced Science Institutes (ASI) Series C, 336, 449
+
+\bibitem[\protect\citeauthoryear{Ramsay et~al.,}{Ramsay
+  et~al.}{2010}]{Ramsay2010}
+Ramsay G.,  et~al., 2010, \mn@doi [Monthly Notices of the Royal Astronomical
+  Society] {10.1111/j.1365-2966.2010.17019.x}, 407, 1819
+
+\bibitem[\protect\citeauthoryear{Rau, Roelofs, Groot, Marsh, Nelemans, Steeghs,
+  Salvato  \& Kasliwal}{Rau et~al.}{2010}]{Rau2010}
+Rau A.,  Roelofs G. H.~A.,  Groot P.~J.,  Marsh T.~R.,  Nelemans G.,  Steeghs
+  D.,  Salvato M.,   Kasliwal M.~M.,  2010, \mn@doi [The Astrophysical Journal]
+  {10.1088/0004-637X/708/1/456}, 708, 456
+
+\bibitem[\protect\citeauthoryear{{Rivera Sandoval} \& Maccarone}{{Rivera
+  Sandoval} \& Maccarone}{2019}]{RiveraSandoval2019}
+{Rivera Sandoval} L.~E.,  Maccarone T.~J.,  2019, \mn@doi [Monthly Notices of
+  the Royal Astronomical Society: Letters] {10.1093/mnrasl/sly205}, 483, L6
+
+\bibitem[\protect\citeauthoryear{{Rivera Sandoval}, Maccarone  \& {Pichardo
+  Marcano}}{{Rivera Sandoval} et~al.}{2020}]{RiveraSandoval2020}
+{Rivera Sandoval} L.~E.,  Maccarone T.~J.,   {Pichardo Marcano} M.,  2020, The
+  Astrophysical Journal, 900, L37
+
+\bibitem[\protect\citeauthoryear{{Rivera Sandoval}, Heinke, Hameury, Cavecchi,
+  Vanmunster, Tordai  \& Romanov}{{Rivera Sandoval}
+  et~al.}{2021a}]{RiveraSandoval2021a}
+{Rivera Sandoval} L.~E.,  Heinke C.~O.,  Hameury J.~M.,  Cavecchi Y.,
+  Vanmunster T.,  Tordai T.,   Romanov F.,  2021a, arXiv, p. arXiv:2107.11006
+
+\bibitem[\protect\citeauthoryear{{Rivera Sandoval}, Maccarone, Cavecchi, Britt
+  \& Zurek}{{Rivera Sandoval} et~al.}{2021b}]{RiveraSandoval2021b}
+{Rivera Sandoval} L.~E.,  Maccarone T.~J.,  Cavecchi Y.,  Britt C.,   Zurek D.,
+   2021b, Monthly Notices of the Royal Astronomical Society, 505, 1
+
+\bibitem[\protect\citeauthoryear{Rodriguez et~al.,}{Rodriguez
+  et~al.}{2023}]{Rodriguez2023}
+Rodriguez A.~C.,  et~al., 2023, arXiv, 2306.13133
+
+\bibitem[\protect\citeauthoryear{Roelofs}{Roelofs}{2007}]{RoelofsPhD}
+Roelofs G. H.~A.,  2007, PhD thesis, University of Nijmegen, \url
+  {http://adsabs.harvard.edu/abs/2007PhDT.......205R}
+
+\bibitem[\protect\citeauthoryear{Roelofs, Groot, Marsh, Steeghs, Barros  \&
+  Nelemans}{Roelofs et~al.}{2005}]{Roelofs2005}
+Roelofs G. H.~A.,  Groot P.~J.,  Marsh T.~R.,  Steeghs D.,  Barros S. C.~C.,
+  Nelemans G.,  2005, \mn@doi [Monthly Notices of the Royal Astronomical
+  Society] {10.1111/j.1365-2966.2005.09186.x}, 361, 487
+
+\bibitem[\protect\citeauthoryear{Roelofs, Groot, Marsh, Steeghs  \&
+  Nelemans}{Roelofs et~al.}{2006a}]{Roelofs2006a}
+Roelofs G.,  Groot P.,  Marsh T.,  Steeghs D.,   Nelemans G.,  2006a, \mn@doi
+  [Monthly Notices of the Royal Astronomical Society]
+  {10.1111/j.1365-2966.2005.09727.x}, 365, 1109
+
+\bibitem[\protect\citeauthoryear{Roelofs, Groot, Nelemans, Marsh  \&
+  Steeghs}{Roelofs et~al.}{2006b}]{Roelofs2006b}
+Roelofs G. H.~A.,  Groot P.~J.,  Nelemans G.,  Marsh T.~R.,   Steeghs D.,
+  2006b, \mn@doi [Monthly Notices of the Royal Astronomical Society]
+  {10.1111/j.1365-2966.2006.10718.x}, 371, 1231
+
+\bibitem[\protect\citeauthoryear{Roelofs, Groot, Nelemans, Marsh  \&
+  Steeghs}{Roelofs et~al.}{2007a}]{Roelofs2007a}
+Roelofs G. H.~A.,  Groot P.~J.,  Nelemans G.,  Marsh T.~R.,   Steeghs D.,
+  2007a, \mn@doi [Monthly Notices of the Royal Astronomical Society]
+  {10.1111/j.1365-2966.2007.11931.x}, 379, 176
+
+\bibitem[\protect\citeauthoryear{Roelofs, Groot, Steeghs, Marsh  \&
+  Nelemans}{Roelofs et~al.}{2007b}]{Roelofs2007b}
+Roelofs G. H.~A.,  Groot P.~J.,  Steeghs D.,  Marsh T.~R.,   Nelemans G.,
+  2007b, \mn@doi [Monthly Notices of the Royal Astronomical Society]
+  {10.1111/j.1365-2966.2007.12397.x}, 382, 1643
+
+\bibitem[\protect\citeauthoryear{Roelofs et~al.,}{Roelofs
+  et~al.}{2009}]{Roelofs2009}
+Roelofs G. H.~A.,  et~al., 2009, \mn@doi [Monthly Notices of the Royal
+  Astronomical Society] {10.1111/j.1365-2966.2008.14288.x}, 394, 367
+
+\bibitem[\protect\citeauthoryear{Roelofs, Rau, Marsh, Steeghs, Groot  \&
+  Nelemans}{Roelofs et~al.}{2010}]{Roelofs2010}
+Roelofs G. H.~A.,  Rau A.,  Marsh T.~R.,  Steeghs D.,  Groot P.~J.,   Nelemans
+  G.,  2010, \mn@doi [The Astrophysical Journal]
+  {10.1088/2041-8205/711/2/L138}, 711, L138
+
+\bibitem[\protect\citeauthoryear{Ruiz, Rojo, Garay  \& Maza}{Ruiz
+  et~al.}{2001}]{Ruiz2001}
+Ruiz M.~T.,  Rojo P.~M.,  Garay G.,   Maza J.,  2001, \mn@doi [The
+  Astrophysical Journal] {10.1086/320578}, 552, 679
+
+\bibitem[\protect\citeauthoryear{Sion, Solheim, Szkody, Gaensicke  \&
+  Howell}{Sion et~al.}{2006}]{Sion2006}
+Sion E.~M.,  Solheim J.~E.,  Szkody P.,  Gaensicke B.~T.,   Howell S.~B.,
+  2006, \mn@doi [The Astrophysical Journal] {10.1086/500085}, 636, L125
+
+\bibitem[\protect\citeauthoryear{Smak}{Smak}{1967}]{Smak1967}
+Smak J.,  1967, Information Bulletin on Variable Stars, 182, 1
+
+\bibitem[\protect\citeauthoryear{Soraisam et~al.,}{Soraisam
+  et~al.}{2023}]{Soraisam2023}
+Soraisam M.,  et~al., 2023, Astronomer's Telegram, 15962, 1
+
+\bibitem[\protect\citeauthoryear{Steeghs, Marsh, Barros, Nelemans, Groot,
+  Roelofs, Ramsay  \& Cropper}{Steeghs et~al.}{2006}]{Steeghs2006}
+Steeghs D.,  Marsh T.~R.,  Barros S. C.~C.,  Nelemans G.,  Groot P.~J.,
+  Roelofs G. H.~A.,  Ramsay G.,   Cropper M.,  2006, \mn@doi [The Astrophysical
+  Journal] {10.1086/506343}, 649, 382
+
+\bibitem[\protect\citeauthoryear{Szkody et~al.,}{Szkody
+  et~al.}{2020}]{Szkody2020}
+Szkody P.,  et~al., 2020, The Astronomical Journal, 159, 198
+
+\bibitem[\protect\citeauthoryear{Wagner et~al.,}{Wagner
+  et~al.}{2014}]{Wagner2014}
+Wagner R.~M.,  et~al., 2014, The Astronomer's Telegram, 6669
+
+\bibitem[\protect\citeauthoryear{Warner}{Warner}{1972}]{Warner1972}
+Warner B.,  1972, \mn@doi [Monthly Notices of the Royal Astronomical Society]
+  {10.1093/mnras/159.3.315}, 159, 315
+
+\bibitem[\protect\citeauthoryear{Warner \& Woudt}{Warner \&
+  Woudt}{2002}]{Warner2002}
+Warner B.,  Woudt P.,  2002, \mn@doi [Publications of the Astronomical Society
+  of the Pacific] {10.1086/338621}, 114, 129
+
+\bibitem[\protect\citeauthoryear{Wevers et~al.,}{Wevers
+  et~al.}{2016}]{Wevers2016}
+Wevers T.,  et~al., 2016, \mn@doi [Monthly Notices of the Royal Astronomical
+  Society: Letters, Volume 462, Issue 1, p.L106-L110] {10.1093/mnrasl/slw141},
+  462, L106
+
+\bibitem[\protect\citeauthoryear{Wood, Winget, Nather, Hessman, Liebert, Kurtz,
+  Wesemael  \& Wegner}{Wood et~al.}{1987}]{Wood1987}
+Wood M.~A.,  Winget D.~E.,  Nather R.~E.,  Hessman F.~V.,  Liebert J.,  Kurtz
+  D.~W.,  Wesemael F.,   Wegner G.,  1987, \mn@doi [The Astrophysical Journal]
+  {10.1086/165014}, 313, 757
+
+\bibitem[\protect\citeauthoryear{Wood, Casey, Garnavich  \& Haag}{Wood
+  et~al.}{2002}]{Wood2002}
+Wood M.~A.,  Casey M.~J.,  Garnavich P.~M.,   Haag B.,  2002, \mn@doi [Monthly
+  Notices of the Royal Astronomical Society]
+  {10.1046/j.1365-8711.2002.05484.x}, 334, 87
+
+\bibitem[\protect\citeauthoryear{Woudt \& Warner}{Woudt \&
+  Warner}{2003}]{Woudt2003}
+Woudt P.~A.,  Warner B.,  2003, White Dwarfs: Galactic and Cosmologic Probes,
+  25th meeting of the IAU, 5
+
+\bibitem[\protect\citeauthoryear{Woudt, Warner  \& Pretorius}{Woudt
+  et~al.}{2004}]{Woudt2004}
+Woudt P.~A.,  Warner B.,   Pretorius M.~L.,  2004, \mn@doi [Monthly Notices of
+  the Royal Astronomical Society] {10.1111/j.1365-2966.2004.07843.x}, 351, 1015
+
+\bibitem[\protect\citeauthoryear{Woudt, Warner  \& Rykoff}{Woudt
+  et~al.}{2005}]{Woudt2005}
+Woudt P.~A.,  Warner B.,   Rykoff E.,  2005, IAU Circ., 8531, 3
+
+\bibitem[\protect\citeauthoryear{Woudt, Warner  \& Motsoaledi}{Woudt
+  et~al.}{2013}]{Woudt2013}
+Woudt P.~A.,  Warner B.,   Motsoaledi M.,  2013, The Astronomer's Telegram,
+  4726
+
+\bibitem[\protect\citeauthoryear{van Roestel et~al.,}{van Roestel
+  et~al.}{2021}]{vanRoestel2021}
+van Roestel J.,  et~al., 2021, \mn@doi [The Astronomical Journal]
+  {10.3847/1538-3881/ac0622}, 162, 113
+
+\bibitem[\protect\citeauthoryear{van Roestel et~al.,}{van Roestel
+  et~al.}{2022}]{vanRoestel2022}
+van Roestel J.,  et~al., 2022, \mn@doi [Monthly Notices of the Royal
+  Astronomical Society] {10.1093/mnras/stab2421}, 512, 5440
+
+\makeatother
+\end{thebibliography}

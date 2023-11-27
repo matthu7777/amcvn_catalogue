@@ -1,0 +1,20 @@
+The code to generate the catalogue is in the directory generate_catalogue.
+It reads the data from the Google spreadsheet and performs a number of quality checks.
+It outputs several versions:
+- amcvn_catalogue_confirmed.fits and amcvn_catalogue_candidate.fits are final versions to be uploaded
+- amcvn_catalogue_secret.fits is a more-complete but less-tidy version used to generate figures
+- for_gaia_upload.fits is the version to be used for the Gaia and distance crossmatch.
+
+In summary_figures are several scripts to produce summary figures of the sample, which are also to be uploaded.
+
+In references is a Latex file to produce a table of references. The file 'references.txt' (output by generate_catalogue.py)
+contains an auto-generated Latex table that you can copy into 'references.tex'. You may need to tidy it a bit.
+
+
+Update the online spreadsheet.
+Run the script. 
+Use topcat to do Gaia and Bailer-Jones crossmatches. 
+Run the script again to read in Gaia data.
+Create figures.
+Create references file.
+Upload to Zenodo.
