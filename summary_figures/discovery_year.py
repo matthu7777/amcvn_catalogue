@@ -18,10 +18,17 @@ if __name__ == '__main__':
         print ("discovery_year.py usage")
         raise SystemExit
 
+    separate = True
+
 
     table = Table.read('amcvn_catalogue_secret.fits')
 
-    fig, axs = mg.formatSubplots((2,1), sharex=True, xlabel='Year', grid=False, figsize=(6,8))
+    if separate:
+        ax1 = mg.formatGraph(1, xlabel='Year', grid=False, figsize=(6,4.5))
+        ax2 = mg.formatGraph(2, xlabel='Year', grid=False, figsize=(6,4.5))
+        axs = [ax1, ax2]
+    else:
+        fig, axs = mg.formatSubplots((2,1), sharex=True, xlabel='Year', grid=False, figsize=(6,8))
 
 
     ref_years = table['Discovery_year']
@@ -63,10 +70,11 @@ if __name__ == '__main__':
              label='Eclipsing', lw=3, ls=':')
 
     axs[1].legend(loc='upper left')
-    axs[1].set_xlim(1965, 2024)
-    print('X limit set to', axs[1].get_xlim()[1])
     axs[1].set_ylim(0,1)
 
+    axs[0].set_xlim(1965, 2024)
+    axs[1].set_xlim(1965, 2024)
+    print('X limit set to', axs[1].get_xlim()[1])
     
     ### Annotate some surveys
 
@@ -78,9 +86,16 @@ if __name__ == '__main__':
     axs[0].annotate('PTF', (2013, axs[0].get_ylim()[1]*0.85), rotation=30, fontsize='small')
     axs[0].annotate('ZTF', (2018, axs[0].get_ylim()[1]*0.88), rotation=30, fontsize='small')
 
-
-    plt.savefig('discovery_year.png')
-    plt.savefig('discovery_year.pdf')
+    if separate:
+        plt.figure(1)
+        plt.savefig('discovery_year_separate.png')
+        plt.savefig('discovery_year_separate.pdf')
+        plt.figure(2)
+        plt.savefig('discovery_year_separate_by_class.png')
+        plt.savefig('discovery_year_separate_by_class.pdf')
+    else:
+        plt.savefig('discovery_year.png')
+        plt.savefig('discovery_year.pdf')
 
     plt.show()
     print('Done')
