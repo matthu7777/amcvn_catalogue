@@ -56,12 +56,11 @@ if __name__ == '__main__':
     parallax_sig = 3
 
 
-    table = Table.read('amcvn_catalogue_secret.fits')
+    table = Table.read('amcvn_catalogue.fits')
     oi = table['Confirmed'] 
     ok = (table['Gaia_parallax'] / table['Gaia_parallax_err'] > parallax_sig) & \
-                    (table['Distance_mean'] < distance_limit)
-
-    distance = table['Distance_mean']
+                    (table['Distance'] < distance_limit)
+    distance = table['Distance']
     
     # bins = np.logspace(np.log10(distance.min()), np.log10(distance_limit), 11)
     bins = np.sort(distance[oi&ok])
@@ -78,10 +77,11 @@ if __name__ == '__main__':
     # gal_bins = np.logspace(np.log10(distance.min()), np.log10(distance_limit), 10)
     # gal_bin_log_centres = 10**((np.log10(gal_bins[:-1]) + np.log10(gal_bins[1:])) / 2)
     for scale_height in [300]:
+        scale_factor = 1/1.5
         gal_dist, gal_n = model_galaxy_dist(scale_height=scale_height, redo=False)
         gal_ok = (gal_dist > 76) & (gal_dist < distance_limit)
         # scale_factor = 1 / gal_n[0]
-        plt.plot(gal_dist[gal_ok], gal_n[gal_ok], 'k--', label=f"Galactic distribution\n(H={scale_height}pc)")
+        plt.plot(gal_dist[gal_ok], gal_n[gal_ok]*scale_factor, 'k--', label=f"Galactic distribution\n(H={scale_height}pc)")
 
 
     ax.set_xscale('log')

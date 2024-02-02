@@ -21,7 +21,7 @@ if __name__ == '__main__':
     separate = True
 
 
-    table = Table.read('amcvn_catalogue_secret.fits')
+    table = Table.read('amcvn_catalogue.fits')
 
     if separate:
         ax1 = mg.formatGraph(1, xlabel='Year', grid=False, figsize=(6,4.5))
@@ -35,7 +35,7 @@ if __name__ == '__main__':
 
     ok = table['Confirmed']
     
-    bins = np.arange(ref_years.min(), ref_years.max()+2)
+    bins = np.arange(ref_years.min(), ref_years.max()+3)
 
 
     ### Simple plot of number known
@@ -72,8 +72,9 @@ if __name__ == '__main__':
     axs[1].legend(loc='upper left')
     axs[1].set_ylim(0,1)
 
-    axs[0].set_xlim(1965, 2024)
-    axs[1].set_xlim(1965, 2024)
+    final_year = ref_years.max()+1
+    axs[0].set_xlim(1965, final_year)
+    axs[1].set_xlim(1965, final_year)
     print('X limit set to', axs[1].get_xlim()[1])
     
     ### Annotate some surveys

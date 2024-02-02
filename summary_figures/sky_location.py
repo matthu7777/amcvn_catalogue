@@ -24,7 +24,7 @@ if __name__ == '__main__':
         raise SystemExit
 
 
-    table = Table.read('amcvn_catalogue_secret.fits')
+    table = Table.read('amcvn_catalogue.fits')
 
     ra = table['RA']*u.deg
     dec = table['Dec']*u.deg

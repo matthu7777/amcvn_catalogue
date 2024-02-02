@@ -1,2 +1,5 @@
 summary_figures/model_galaxy_300.dat
 generate_catalogue/client_key.json
+summary_figures/__pycache__/
+*.pyc
+*.backup
