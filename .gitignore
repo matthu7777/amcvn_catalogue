@@ -3,3 +3,12 @@ generate_catalogue/client_key.json
 summary_figures/__pycache__/
 *.pyc
 *.backup
+summary_figures/.background_mss.fits
+summary_figures/.background_wds.fits
+summary_figures/.chains.npy
+summary_figures/.chains_eclipse.npy
+summary_figures/.chains_volume.npy
+summary_figures/.wd_ugr.fits
+summary_figures/cmd.pdf
+summary_figures/gentile_fusillo_gedr3_wd_catalogue_clean.fits
+generate_catalogue/google_client_key.json

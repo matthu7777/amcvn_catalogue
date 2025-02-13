@@ -1,0 +1,230 @@
+#!/usr/bin/env python
+
+"""
+"""
+    
+import numpy as np
+import matplotlib.pyplot as plt
+from sys import argv, exit
+from astropy.io import fits
+from astropy.table import Table
+import emcee
+import os
+from scipy.integrate import quad
+import mgutils as mg, mgutils.constants as co
+
+
+def period_prob(porb, alpha, pmin=0, pmax=70):
+    norm = 1/(alpha + 1) * (pmax**(alpha+1) - pmin**(alpha+1))
+    return porb**alpha / norm
+
+def period_prob_eclipse(porb, alpha, pmin=0, pmax=70, xi=-0.2):
+    """ Combined period distribution P^alpha * eclipse probability.
+        Relation of eclipse prob to P calculated from Kepler and period-density constraint,
+        plus some assumed constant donor response to mass loss xi.
+        Prob eclipse \propto (1 + P^(2/(9*xi - 3))).
+        Will normalise combined probability of eclipse * prob of selection to one
+    """
+    beta = alpha + 2 / (9 * xi - 3)
+    norm = 1/(alpha + 1) * (pmax**(alpha+1) - pmin**(alpha+1)) + \
+            1/(beta + 1) * (pmax**(beta+1) - pmin**(beta+1))
+    return (porb**alpha + porb**beta) / norm
+
+
+def inverse_outburst_time(porb, a=1.53e-9, b=7.35, c=24.7):
+    return 1 / (a * porb**b + c)
+
+def period_prob_outburst(porb, alpha, pmin=20, pmax=40):
+    def prob(porb):
+        return porb**alpha * inverse_outburst_time(porb)
+    norm = quad(prob, pmin, pmax)[0]
+    return porb**alpha * inverse_outburst_time(porb) / norm
+
+
+
+
+def ln_prior(alpha):
+    if alpha > 0:
+        return 0
+    else:
+        return -np.inf
+
+
+def ln_prob(alpha, porb_close, porb_eclipse, porb_outburst=None):
+    lp = ln_prior(alpha)
+    ll = np.log(period_prob(porb_close, alpha)).sum() + \
+        np.log(period_prob_eclipse(porb_eclipse, alpha)).sum()
+    if fit_outbursts:
+        ll += np.log(period_prob_outburst(porb_outburst, alpha)).sum()
+    if not np.isfinite(ll) or not np.isfinite(lp):
+        return -np.inf
+    return ll + lp
+
+
+
+
+def mcmc_fit(*args, p0=1, redo=False, sname='.chains.npy'):
+    nwalkers, ndim, nsteps = 16, 1, 4000
+    nburn, nthin = nsteps//2, 100
+    pos = p0 + 1e-4*np.random.randn(nwalkers, ndim)
+
+    if not os.path.isfile(sname) or redo:
+
+        sampler = emcee.EnsembleSampler(nwalkers, ndim, ln_prob, args=args)
+        sampler.run_mcmc(pos, nsteps, progress=True)
+
+        # samples = sampler.get_chain(discard=nburn, thin=nthin)
+        flat_samples = sampler.get_chain(discard=nburn, thin=nthin, flat=True)
+
+        np.save(sname, flat_samples)
+    
+    else:
+        flat_samples = np.load(sname)
+
+    best_fit = flat_samples.mean(axis=0)
+    print("Best fit:", best_fit)
+    errors = flat_samples.std(axis=0)
+    print("Errors:", errors)
+
+    return flat_samples, best_fit, errors
+
+
+
+
+
+if __name__ == '__main__':
+
+    if "-h" in argv:
+        print ("periods.py usage")
+        raise SystemExit
+
+    fit_outbursts = False
+
+
+    table = Table.read('amcvn_catalogue.fits')
+    ok = np.array(table['Confirmed']) & ~np.array(table['Has_optical_hydrogen']) & np.isfinite(table['Period'])
+
+    print(len(table))
+    print(np.sum(table['Confirmed']))
+
+
+    direct = ok & (table['Disk_state'] == 'direct')
+    high = ok & (table['Disk_state'] == 'high')
+    outburst = ok & (table['Disk_state'] == 'outburst')
+    low = ok & (table['Disk_state'] == 'low')
+    eclipsing = ok & (table['Has_eclipses'])
+    close = ok & (table['Distance'] < 300)
+    erosita = ok & (table['Has_eROSITA'])
+
+    outburst_tofit = outburst & (table['Period'] < 40) & (table['Gaia_Gmag'] < 19)
+
+    period = table['Period']
+    period_subsets = [period[direct], period[high], period[low], period[outburst]]
+
+    pmax = 70
+    pmin = 5
+    nbins = 9
+    bins = np.logspace(np.log10(pmin), np.log10(pmax), nbins+1)
+    log_bin_width = (np.log10(pmax) - np.log10(pmin)) / nbins
+
+
+
+
+
+    ### Plot histogram
+
+
+
+    if fit_outbursts:
+        fig1, ax1 = mg.formatGraph(1, xlabel='Orbital period [min]', ylabel='Number', grid=False, returnFig=True)
+        fig2, ax2 = mg.formatGraph(2, xlabel='Orbital period [min]', ylabel='Number', grid=False, returnFig=True)
+        fig3, ax3 = mg.formatGraph(3, xlabel='Orbital period [min]', ylabel='Number', grid=False, returnFig=True)
+    else:
+        fig, axs = mg.formatSubplots((2,1), xlabel='Orbital period [min]', ylabel='Number', grid=False, sharex=True,)
+        ax1, ax2 = axs
+
+    n1,_,_ = ax1.hist(period[close], bins, density=False, histtype='step', stacked=False, color=['r'], lw=3, label="$D < 300$ pc")
+    n2,_,_ = ax2.hist(period[eclipsing], bins, density=False, histtype='step', stacked=False, color=['k'], lw=3, label="Eclipsing")
+    if fit_outbursts:
+        ax3.hist(period[outburst], bins, density=False, histtype='step', stacked=False, color=['m'], lw=3, label="Outbursting")
+        ax3.hist(period[outburst_tofit], bins, density=False, histtype='step', stacked=False, color=['k'], lw=1, label="Outbursting")
+
+    # Error bars
+    ax1.errorbar(bins[:-1]*10**(log_bin_width/2), n1, np.sqrt(n1), fmt='none', color='r')
+    ax2.errorbar(bins[:-1]*10**(log_bin_width/2), n2, np.sqrt(n2), fmt='none', color='k')
+
+
+
+    print(np.sum(eclipsing), 'eclipsing systems')
+    print(np.sum(close), 'within 300 pc')
+    print(np.sum(eclipsing&close), 'overlap')
+
+    # plt.show()
+
+    ### Run MCMC
+    flat_samples, alpha, alpha_err = mcmc_fit(period[close], period[eclipsing], period[outburst_tofit])
+    alpha, alpha_err = alpha[0], alpha_err[0]
+
+
+
+    ### Plot MCMC best fit range
+
+    xplot = np.linspace(5,70,100)
+    iters = np.array([period_prob(xplot, sample) for sample in flat_samples])
+    lims = np.percentile(iters,[2.3,15.9,50,84.1,97.7], axis=0) * \
+                xplot * (10**(log_bin_width/2) - 10**-(log_bin_width/2)) * np.sum(close)
+    ax1.fill_between(xplot, lims[1], lims[-2], color='red', alpha=0.2, label=f'Best fit range ($\\alpha={alpha:.1f} \\pm {alpha_err:.1f}$)')
+
+    iters_eclipse = np.array([period_prob_eclipse(xplot, sample) for sample in flat_samples])
+    lims_eclipse = np.percentile(iters,[2.3,15.9,50,84.1,97.7], axis=0) * \
+                xplot * (10**(log_bin_width/2) - 10**-(log_bin_width/2)) * np.sum(eclipsing)
+    ax2.fill_between(xplot, lims_eclipse[1], lims_eclipse[-2], color='k', alpha=0.2, label=f'Best fit range ($\\alpha={alpha:.1f} \\pm {alpha_err:.1f}$)')
+
+    if fit_outbursts:
+        iters_outburst = np.array([period_prob_outburst(xplot, sample) for sample in flat_samples])
+        lims_outburst = np.percentile(iters,[2.3,15.9,50,84.1,97.7], axis=0) * \
+                    xplot * (10**(log_bin_width/2) - 10**-(log_bin_width/2)) * np.sum(outburst_tofit)
+        ax3.fill_between(xplot, lims_outburst[1], lims_outburst[-2], color='m', alpha=0.2)
+
+
+
+    ax1.plot(xplot, period_prob(xplot, 3.6)*xplot * (10**(log_bin_width/2) - 10**-(log_bin_width/2)) * np.sum(close), \
+             'k--', label='Deloye+ (2007) prediction ($\\alpha = 3.6$)')
+    ax2.plot(xplot, period_prob_eclipse(xplot, 3.6)*xplot * (10**(log_bin_width/2) - 10**-(log_bin_width/2)) * np.sum(close), \
+             'k--', label='Deloye+ (2007) prediction ($\\alpha = 3.6$)')
+
+    for ax in [ax1, ax2] + ([ax3] if fit_outbursts else []):
+        xticks = [15, 20, 30, 40, 50, 60, 70]
+        ax.set_xlim(15,70)
+        ax.set_xscale('log')
+        ax.set_xticks(xticks)
+        ax.set_xticklabels(xticks)
+
+        yticks = [0,5,10,15,20,25]
+        ax.set_yticks(yticks)
+        ax.set_yticklabels(yticks)
+
+        ax.legend(loc='upper left')
+
+        ax.set_ylim(0,13)
+
+    if fit_outbursts:
+        fig1.savefig("fit_period_close.png")
+        fig2.savefig("fit_period_eclipsing.png")
+        fig3.savefig("fit_period_outburst.png")
+    else:
+        plt.savefig("fit_period_distribution.pdf")
+
+
+
+    ### Est fraction of high state systems
+    f_high_mean = quad(period_prob, 10, 20, args=alpha)[0]
+    f_high_up = quad(period_prob, 10, 20, args=alpha-alpha_err)[0]
+    f_high_down = quad(period_prob, 10, 20, args=alpha+alpha_err)[0]
+
+    print('Fraction of high state systems:', f_high_down, f_high_mean, f_high_up)
+
+
+
+
+    plt.show()

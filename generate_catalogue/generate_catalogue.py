@@ -7,7 +7,11 @@ import numpy as np
 # import matplotlib.pyplot as plt
 from sys import argv, exit
 # from astropy.io import fits
+import pandas as pd
 from astropy.table import Table
+from astropy import units as u
+from astropy.coordinates import SkyCoord
+from astroquery.xmatch import XMatch
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import re
@@ -141,6 +145,111 @@ def quad(*args):
     return np.sqrt(np.sum(args**2))
 
 
+
+def Xmatch_Gaia(ra,dec,max_distance=5.):
+    """ Perform the Gaia cross-match using astroquery for a particular target.
+        Adapted from Jan's code.
+    """
+    # make 2d if 1d
+    ra = np.atleast_1d(ra)
+    dec = np.atleast_1d(dec)
+
+    # for some reason, Xmatch does not function properly with just a single value
+    # therefore, just we just upload it twice
+
+    # make a python table with coordinates
+    mycat = Table([ra,dec],names=['myra','mydec'],
+        meta={'name':'mytable'})
+
+    # download data from vizier
+    print('Downloading Gaia data')
+
+    # download
+    table = XMatch.query(cat1=mycat,
+        #    cat2='vizier:I/350/gaiaedr3',
+           cat2='vizier:I/355/gaiadr3',
+           max_distance=max_distance * u.arcsec,
+           colRA1='myra',
+           colDec1='mydec')
+
+    print("Found %d matched within a radius %d" %(len(table),max_distance))
+
+    return table
+
+
+def Xmatch_BJ(ra,dec,max_distance=5.):
+    """ Perform the Bailer-Jones cross-match using astroquery for a particular target
+    Adapted from Jan's code.
+    """
+    # make 2d if 1d
+    ra = np.atleast_1d(ra)
+    dec = np.atleast_1d(dec)
+
+    # for some reason, Xmatch does not function properly with just a single value
+    # therefore, just we just upload it twice
+
+    # make a python table with coordinates
+    mycat = Table([ra,dec],names=['myra','mydec'],
+        meta={'name':'mytable'})
+
+    # download data from vizier
+    print('Downloading Gaia data')
+
+    # download
+    table = XMatch.query(cat1=mycat,
+           cat2='vizier:I/352/gedr3dis',
+           max_distance=max_distance * u.arcsec,
+           colRA1='myra',
+           colDec1='mydec')
+
+    print("Found %d matched within a radius %d" %(len(table),max_distance))
+
+    return table
+
+
+
+def get_Gaia(ra, dec, max_distance):
+    """ Get the Gaia data for a particular target
+    Adapted from Jan's code.
+    """
+    
+    print(ra,dec)
+    
+    dummy =  np.nan,np.nan,np.nan,np.nan,np.nan,np.nan,np.nan,np.nan,0,np.nan,np.nan,np.nan
+    
+    if np.isnan(ra) or np.isnan(dec):
+        return dummy
+        
+    # if coordinates are fine, query from vizier
+    table = Xmatch_Gaia(ra,dec,max_distance=max_distance)
+    
+    # if the output is empty, return dummy 
+    if len(table)==0:
+        return dummy
+    
+    # get the right values
+    angdist,ra,dec,G,G_e,BPRP, = table['angDist'][0],table['RAdeg'][0],table['DEdeg'][0],table['Gmag'][0],table['e_Gmag'][0],table['BP-RP'][0]
+    
+    # also get the parallax
+    plx,plx_e = table['Plx'][0],table['e_Plx'][0]
+    # the source ID is an int64, but python really likes converting it to a 
+    # float64 and drop some numbers in the process!
+    # gaia_dr3_id = "Gaia DR3 %d" %(table['source_id'][0])
+    gaia_dr3_id = table['DR3Name'][0]
+    
+    # now get Bailer Jones stuff
+    table_bj = Xmatch_BJ(ra,dec,max_distance=max_distance)
+    if len(table_bj)==0:
+        return angdist,ra,dec,G,G_e,BPRP,plx,plx_e,gaia_dr3_id, np.nan,np.nan,np.nan
+    
+    dist16, dist50, dist84 = table_bj['b_rgeo'][0], table_bj['rgeo'][0], table_bj['B_rgeo'][0]
+
+
+    return angdist,ra,dec,G,G_e,BPRP,plx,plx_e,gaia_dr3_id, dist16,dist50,dist84
+
+
+
+
 if __name__ == '__main__':
 
     if "-h" in argv:
@@ -159,7 +268,7 @@ if __name__ == '__main__':
         'https://www.googleapis.com/auth/drive',
         'https://www.googleapis.com/auth/drive.file'
         ]
-    file_name = 'client_key.json'
+    file_name = '/home/matthew/work/general_data/google_client_key.json'
     creds = ServiceAccountCredentials.from_json_keyfile_name(file_name,scope)
     client = gspread.authorize(creds)
 
@@ -180,46 +289,96 @@ if __name__ == '__main__':
     table = Table()
     table['Name'] = names[oi]
 
-    # Booleans
-    # table['Include'] = np.array(get_sheet_column(sheet, cols, 'Include in published table', length=len(names))[oi] == 'y', dtype=bool)
-    table['Confirmed'] = np.array(get_sheet_column(sheet, cols, 'Confirmed?', length=len(names))[oi] == 'y', dtype=bool)
-    table['Has_spectrum'] = np.array(get_sheet_column(sheet, cols, 'Has spectrum', length=len(names))[oi] == 'y', dtype=bool)
-    table['Has_optical_hydrogen'] = np.array(get_sheet_column(sheet, cols, 'Has optical hydrogen lines', length=len(names))[oi] == 'y', dtype=bool)
-    table['Has_optical_donor'] = np.array(get_sheet_column(sheet, cols, 'Has visible donor', length=len(names))[oi] == 'y', dtype=bool)
 
     # Other names
     table['Other_names'] = get_sheet_column(sheet, cols, 'Other names', length=len(names))[oi]
 
     # Coords
     coords_hex = get_sheet_column(sheet, cols, 'RA/Dec')[oi]
-    table['RA'] = np.array([convertRADec(radecstr)[0] for radecstr in coords_hex])
-    table['Dec'] = np.array([convertRADec(radecstr)[1] for radecstr in coords_hex])
+    # Below are the original coords from my spreadsheet, later will be overwritten with Gaia if possible
+    table['RA'] = np.array([convertRADec(radecstr)[0] for radecstr in coords_hex]) * u.deg
+    table['Dec'] = np.array([convertRADec(radecstr)[1] for radecstr in coords_hex]) * u.deg
+    table['Coords_hex'] = coords_hex
     for c in coords_hex:
         # assert len(c) == 23
         assert len(c.split())==2
         assert len(c.split(':'))==5
         assert c.split()[1].startswith('+') or c.split()[1].startswith('-')
-    table['Coords_hex'] = coords_hex
+
+
+
+
+
+
+    # Comment
+    table['Notes'] = get_sheet_column(sheet, cols, 'Notes', length=len(names))[oi]
+
+
+    # Booleans
+    # table['Include'] = np.array(get_sheet_column(sheet, cols, 'Include in published table', length=len(names))[oi] == 'y', dtype=bool)
+    table['Confirmed'] = np.array(get_sheet_column(sheet, cols, 'Confirmed?', length=len(names))[oi] == 'y', dtype=bool)
+    table['Has_spectrum'] = np.array(get_sheet_column(sheet, cols, 'Has spectrum', length=len(names))[oi] == 'y', dtype=bool)
+    table['Has_optical_hydrogen'] = np.array(get_sheet_column(sheet, cols, 'Has optical hydrogen lines', length=len(names))[oi] == 'y', dtype=bool)
+    table['Has_optical_donor'] = np.array(get_sheet_column(sheet, cols, 'Has visible donor', length=len(names))[oi] == 'y', dtype=bool)
+    table['Has_eclipses'] = np.array(get_sheet_column(sheet, cols, 'Has eclipses of white dwarf', length=len(names))[oi] == 'y', dtype=bool)
+    table['Has_eROSITA'] = np.array(get_sheet_column(sheet, cols, 'eRASS1_match', length=len(names))[oi] == 'TRUE', dtype=bool)
+
+
+    donor_type = np.array(get_sheet_column(sheet, cols, 'Donor type', length=len(names))[oi], dtype=str)
+
+    table['AM_CVn'] = (table['Confirmed']) & (~table['Has_optical_hydrogen'] & (donor_type=='')) | (donor_type=='AM CVn')
+    table['He_CV'] = (table['Confirmed']) & (table['Has_optical_hydrogen'] &  (donor_type=='')) | (donor_type=='He CV')
+    table['sdB_donor'] = (table['Confirmed']) & (donor_type=='sdB')
+    table['BD_donor'] = (table['Confirmed']) & (donor_type=='BD')
+
 
     # Discovery paper
     table['Discovery_ref'] = [treat_reference(r) for r in get_sheet_column(sheet, cols, 'Discovery paper')[oi]]
     
-    # Comment
-    table['Notes'] = get_sheet_column(sheet, cols, 'Notes', length=len(names))[oi]
+    ### Find discovery year
+    ref_years = np.array([
+                        int(y) if y else \
+                        int(re.findall(r'\d\d\d\d', r)[0]) if len(re.findall(r'\d\d\d\d', r))>0 else \
+                        np.nan for r,y in zip(table['Discovery_ref'], \
+                        get_sheet_column(sheet, cols, 'Discovery year (unpublished systems only)', length=len(names))[oi])
+    ])
+    table['Discovery_year'] = ref_years
+
+    table['Spec_ref'] = [''] * len(table) # Dummies to create the columns, they will be filled later
+    table['References'] = [''] * len(table)
+
+
 
     # Period
     period_strs = get_sheet_column(sheet, cols, 'Period (min)', length=len(names))[oi]
-    table['Period'] = [float(re.findall(r'\d+[.]?\d*', p)[0]) if len(p)>0 else np.nan for p in period_strs]
+    table['Period'] = np.array([float(re.findall(r'\d+[.]?\d*', p)[0]) if len(p)>0 else np.nan for p in period_strs]) * u.min
     table['Period_note'] = [p.replace(re.findall(r'\d+[.]?\d*', p)[0],'').strip() if len(p)>0 else '' for p in period_strs]
     table['Period_method'] = get_sheet_column(sheet, cols, 'Period Method', length=len(names))[oi]
+
+    # Move predicted periods to separate column
+    table['Period_predicted'] = np.array([p if m=='Predicted' else np.nan for p,m in zip(table['Period'],table['Period_method'])]) * u.min
+    table['Period'][table['Period_method']=='Predicted'] = np.nan
+    table['Period_note'][table['Period_method']=='Predicted'] = ''
+    table['Period_method'][table['Period_method']=='Predicted'] = ''
+
+    if use_cautious_timing:
+        time.sleep(5)
+
     table['Period_comment'] = get_sheet_column(sheet, cols, 'Period Comment', length=len(names))[oi]
     table['Period_ref'] = [treat_reference(r) for r in get_sheet_column(sheet, cols, 'Period Source', length=len(names))[oi]]
 
-    if use_cautious_timing:
-        time.sleep(3)
-
     # Disc state
-    table['Disk_state'] = get_sheet_column(sheet, cols, 'State', length=len(names))[oi]
+    table['Disk_state'] = [v.title() if v!='??' else '' for v in get_sheet_column(sheet, cols, 'State', length=len(names))[oi]]
+
+    # Pdot
+    table['Pdot'] = np.array([float(v) if len(v)>0 else np.nan for v in get_sheet_column(sheet, cols, 'Pdot', length=len(names))[oi]]) * u.ps / u.s
+    table['Pdot_err'] = np.array([float(v) if len(v)>0 else np.nan for v in get_sheet_column(sheet, cols, 'Pdot err', length=len(names))[oi]]) * u.ps / u.s
+    table['Pdot_ref'] = [treat_reference(r) for r in get_sheet_column(sheet, cols, 'Pdot Source', length=len(names))[oi]]
+
+
+    if use_cautious_timing:
+        time.sleep(5)
+
 
     # Mass ratio
     table['Q'] = [float(v) if len(v)>0 else np.nan for v in get_sheet_column(sheet, cols, 'q', length=len(names))[oi]]
@@ -229,7 +388,7 @@ if __name__ == '__main__':
     table['Q_comment'] = get_sheet_column(sheet, cols, 'q Comment', length=len(names))[oi]
 
     if use_cautious_timing:
-        time.sleep(3)
+        time.sleep(5)
 
     # Superhump
     table['Superhump_excess'] = [float(v) if len(v)>0 else np.nan for v in get_sheet_column(sheet, cols, 'Superhump Excess', length=len(names))[oi]]
@@ -238,20 +397,68 @@ if __name__ == '__main__':
     table['Superhump_comment'] = get_sheet_column(sheet, cols, 'Superhump Comment', length=len(names))[oi]
 
     if use_cautious_timing:
-        time.sleep(3)
+        time.sleep(5)
 
     # Masses
-    table['M1'] = [float(v) if len(v)>0 else np.nan for v in get_sheet_column(sheet, cols, 'M1', length=len(names))[oi]]
-    table['M1_err'] = [float(v) if len(v)>0 else np.nan for v in get_sheet_column(sheet, cols, 'M1 err', length=len(names))[oi]]
-    table['M2'] = [float(v) if len(v)>0 else np.nan for v in get_sheet_column(sheet, cols, 'M2', length=len(names))[oi]]
-    table['M2_err'] = [float(v) if len(v)>0 else np.nan for v in get_sheet_column(sheet, cols, 'M2 err', length=len(names))[oi]]
+    table['M1'] = np.array([float(v) if len(v)>0 else np.nan for v in get_sheet_column(sheet, cols, 'M1', length=len(names))[oi]]) * u.solMass
+    table['M1_err'] = np.array([float(v) if len(v)>0 else np.nan for v in get_sheet_column(sheet, cols, 'M1 err', length=len(names))[oi]]) * u.solMass
+    table['M2'] = np.array([float(v) if len(v)>0 else np.nan for v in get_sheet_column(sheet, cols, 'M2', length=len(names))[oi]]) * u.solMass
+    table['M2_err'] = np.array([float(v) if len(v)>0 else np.nan for v in get_sheet_column(sheet, cols, 'M2 err', length=len(names))[oi]]) * u.solMass
     table['Masses_ref'] = get_sheet_column(sheet, cols, 'M1 M2 Source', length=len(names))[oi]
+    table['Masses_comment'] = get_sheet_column(sheet, cols, 'M1 M2 Comment', length=len(names))[oi]
 
 
-    
 
 
-    # All references
+
+    ### Recalculate superhump mass ratios
+    for j, (sh, sh_err) in enumerate(zip(table['Superhump_excess'], table['Superhump_excess_err'])):
+        if (not np.isfinite(table['Superhump_excess'][j])) or (table['Q_method'][j] and table['Q_method'][j] != 'Superhumps'):
+            continue
+        table['Q'][j], table['Q_err'][j] = findQMcAllisterB(sh, sh_err)
+        table['Q_ref'][j] = 'Recalculated here'
+        table['Q_method'][j] = 'Superhumps'
+        pass
+
+
+
+
+
+
+
+
+
+    ###### Gaia crossmatch
+
+
+
+    gaia_data = pd.DataFrame.from_records([get_Gaia(r,d,10) if n=='V396 Hya' else get_Gaia(r,d,5) for n,r,d in zip(table['Name'], table['RA'], table['Dec'])], \
+                                  columns=['Gdr3_angDist','Gdr3_ra','Gdr3_dec','Gdr3_phot_g_mean_mag','Gdr3_phot_g_mean_mag_error','Gdr3_bp_rp','Gdr3_plx','Gdr3_plx_error','Gdr3_source_id','BJ_dist_16','BJ_dist_50','BJ_dist_84'])
+
+
+    gaia_ok = np.isfinite(gaia_data['Gdr3_ra'])
+
+    table['Gaia_ID'] = np.array([v if v!=0 else '' for v in gaia_data['Gdr3_source_id']], dtype=str)
+    table['RA'][gaia_ok] = np.array(gaia_data['Gdr3_ra'][gaia_ok]) * u.deg
+    table['Dec'][gaia_ok] = np.array(gaia_data['Gdr3_dec'][gaia_ok]) * u.deg
+    table['Gaia_Gmag'] = np.array(gaia_data['Gdr3_phot_g_mean_mag']) * u.mag
+    table['Gaia_Gmag_err'] = np.array(gaia_data['Gdr3_phot_g_mean_mag_error']) * u.mag
+    table['Gaia_BPRP'] = np.array(gaia_data['Gdr3_bp_rp']) * u.mag
+    table['Gaia_parallax'] = np.array([v if np.isfinite(v) else np.nan for v in gaia_data['Gdr3_plx']]) * u.mas
+    table['Gaia_parallax_err'] = np.array([v if np.isfinite(v) else np.nan for v in gaia_data['Gdr3_plx_error']]) * u.mas
+
+    table['Distance'] = np.array(gaia_data['BJ_dist_50']) * u.pc
+    table['Distance_16'] = np.array(gaia_data['BJ_dist_16']) * u.pc
+    table['Distance_84'] = np.array(gaia_data['BJ_dist_84']) * u.pc
+
+
+
+
+
+
+
+
+    ### All references
     # In the dict below, put any references that are not of the form aaaaaa0000, and their publication year
     # If you put nan, it will be excluded from the table (use this for any priv comm, for instance)
     nonstandard_refs = {
@@ -259,8 +466,9 @@ if __name__ == '__main__':
         'Kupfer (priv. comm.)':np.nan,
         'Aungwerojwit (priv. comm.)':np.nan,
         'Motsoaledi et al. (priv. comm.)':np.nan,
-        'Green et al (in review)':np.nan,
-        # '--':np.nan,
+        'Recalculated here':np.nan,
+        # '??':np.nan,
+        '--':np.nan,
     } 
     phot_comment = get_sheet_column(sheet, cols, 'Photometry', length=len(names))[oi]
     spec_comment = get_sheet_column(sheet, cols, 'Spectroscopy', length=len(names))[oi]
@@ -278,9 +486,11 @@ if __name__ == '__main__':
         extra_refs = np.append(extra_refs, [n for n in nonstandard_refs if n in pc+' '+sc])
         
         # compile all references for this particular target
-        all_refs = np.append(extra_refs, treat_reference(table['Discovery_ref'][j]))
+        all_refs = np.append(extra_refs, [treat_reference(s) for s in table['Discovery_ref'][j].split(',')])
         if len(table['Period_ref'][j]) > 0:
             all_refs = np.append(all_refs, [treat_reference(s) for s in table['Period_ref'][j].split(',')])
+        if len(table['Pdot_ref'][j]) > 0:
+            all_refs = np.append(all_refs, [treat_reference(s) for s in table['Pdot_ref'][j].split(',')])
         if len(table['Q_ref'][j]) > 0:
             all_refs = np.append(all_refs, [treat_reference(s) for s in table['Q_ref'][j].split(',')])
         if len(table['Superhump_ref'][j]) > 0:
@@ -295,9 +505,11 @@ if __name__ == '__main__':
                         nonstandard_refs[r] for r in all_refs])
         all_refs = all_refs[np.argsort(ref_years[~np.isnan(ref_years)])]
         spec_refs_target = np.unique(spec_refs_target)
+
         ref_years_spec = np.array([int(re.findall(r'\d\d\d\d', r)[0]) if len(re.findall(r'\d\d\d\d', r))>0 else \
                         np.nan if (r=='' or r=='--' or 'vsnet' in r) else 
                         nonstandard_refs[r] for r in spec_refs_target])
+        spec_refs_target = spec_refs_target[~np.isnan(ref_years_spec)]
         spec_refs_target = spec_refs_target[np.argsort(ref_years_spec[~np.isnan(ref_years_spec)])]
 
         # append to final columns
@@ -312,25 +524,19 @@ if __name__ == '__main__':
     table['References'] = refs_targets
 
 
-    ### Find discovery year
-    ref_years = np.array([
-                        int(y) if y else \
-                        int(re.findall(r'\d\d\d\d', r)[0]) if len(re.findall(r'\d\d\d\d', r))>0 else \
-                        np.nan for r,y in zip(table['Discovery_ref'], \
-                        get_sheet_column(sheet, cols, 'Discovery year (unpublished systems only)', length=len(names))[oi])
-    ])
-    table['Discovery_year'] = ref_years
-
-
 
     ### Check if any values are missing references, errors, and a few other checks
     has_period = table['Period'] > 0
+    has_pdot = table['Pdot'] > 0
     has_q = table['Q'] > 0
     has_sh = table['Superhump_excess'] > 0
     has_m1 = table['M1'] > 0
     has_m2 = table['M2'] > 0
     # period
     for j, ref in enumerate(table['Period_ref'][has_period]):
+        assert ref
+    # pdot
+    for j, ref in enumerate(table['Pdot_ref'][has_pdot]):
         assert ref
     # spectrum 
     for j, ref in enumerate(table['Spec_refs'][table['Has_spectrum']]):
@@ -358,20 +564,11 @@ if __name__ == '__main__':
     for j, ref in enumerate(table['Masses_ref'][has_m1&has_m2]):
         assert table['Q'][has_m1&has_m2][j] > 0
     
-
-    ### Recalculate superhump mass ratios
-    for j, (sh, sh_err) in enumerate(zip(table['Superhump_excess'], table['Superhump_excess_err'])):
-        if (not np.isfinite(table['Superhump_excess'][j])) or (table['Q_method'][j] and table['Q_method'][j] != 'Superhumps'):
-            continue
-        table['Q'][j], table['Q_err'][j] = findQMcAllisterB(sh, sh_err)
-        table['Q_ref'][j] = 'Recalculated in this work'
-        pass
-
         
 
 
 
-    ### Output references 
+    ### Output references to text file 
 
     all_all_refs = np.unique(all_all_refs)
     # ref_years = np.array([int(re.findall(r'\d\d\d\d', r)[0]) if len(re.findall(r'\d\d\d\d', r))>0 else \
@@ -383,83 +580,6 @@ if __name__ == '__main__':
     with open('references.txt', 'a') as f:
         for ref in all_all_refs:
             f.write(ref+" & \\citet{"+ref+"}\\\\\n")
-
-
-
-
-
-    ######### Gaia crossmatch to go here
-
-
-    # Old version:
-            
-
-    # ### Create temporary table for Gaia crossmatch
-
-    # temp_table = copy.copy(table)
-    # mag_strings = get_sheet_column(sheet, cols, 'Magnitude, band', length=len(names))[oi]
-    # mags = np.array([])
-    # for m in mag_strings:
-    #     if m:
-    #         mag = re.findall(r'\d+[.]?\d*', m)
-    #         assert len(mag) == 1 or np.isnan(mag)
-    #         mags = np.append(mags, float(mag[0]))
-    #     else:
-    #         mags = np.append(mags, np.nan)
-    # temp_table['Magnitude'] = mags
-
-
-
-
-
-
-
-
-    # temp_table.write('for_gaia_upload.fits', overwrite=True)
-
-
-    # ### Now go away and do the Gaia and Bailer-Jones crossmatches in Topcat
-
-    ### Read in Gaia crossmatch and get data
-    # Do the Gaia crossmatch with at least 12 arcseconds to include GP Com and V396 Hya
-    # Then we will filter out all some bad crossmatches
-
-    if os.path.isfile('gaia_crossmatch.fits'):
-        gaia = Table.read('gaia_crossmatch.fits')
-        gaia_ok = (gaia['angDist'] < 5) | (gaia['PM'] > 100)
-        gaia = gaia[gaia_ok]
-
-        inds_table_gaia = [np.argwhere(name.strip()==table['Name'])[0,0] for name in gaia['Name']]
-
-        table['Gaia_ID'] = match_arrays(gaia['Source'], inds_table_gaia, len(table), str)
-        table['Gaia_Gmag'] = match_arrays(gaia['Gmag'], inds_table_gaia, len(table), float)
-        table['Gaia_Gmag_err'] = match_arrays(gaia['e_Gmag'], inds_table_gaia, len(table), float)
-        table['Gaia_BPmag'] = match_arrays(gaia['BPmag'], inds_table_gaia, len(table), float)
-        table['Gaia_BPmag_err'] = match_arrays(gaia['e_BPmag'], inds_table_gaia, len(table), float)
-        table['Gaia_RPmag'] = match_arrays(gaia['RPmag'], inds_table_gaia, len(table), float)
-        table['Gaia_RPmag_err'] = match_arrays(gaia['e_RPmag'], inds_table_gaia, len(table), float)
-        table['Gaia_parallax'] = match_arrays(gaia['Plx'], inds_table_gaia, len(table), float)
-        table['Gaia_parallax_err'] = match_arrays(gaia['e_Plx'], inds_table_gaia, len(table), float)
-
-
-    ### Read in Bailer-Jones crossmatch and get data
-
-    if os.path.isfile('bjdist_crossmatch.fits'):
-        bjdist = Table.read('bjdist_crossmatch.fits')
-        # bjdist_ok = (bjdist['angDist'] < 5) | (bjdist['PM'] > 100)
-        bjdist_ok = np.array([n in gaia['Name'] for n in bjdist['Name']], dtype=bool)
-        bjdist = bjdist[bjdist_ok]
-
-        inds_table_bjdist = [np.argwhere(name.strip()==table['Name'])[0,0] for name in bjdist['Name']]
-
-        table['Distance'] = match_arrays(bjdist['rgeo'], inds_table_bjdist, len(table), float)
-        table['Distance_16percentile'] = match_arrays(bjdist['b_rgeo_x'], inds_table_bjdist, len(table), float)
-        table['Distance_84percentile'] = match_arrays(bjdist['B_rgeo_xa'], inds_table_bjdist, len(table), float)
-    
-
-
-
-
 
 
 
@@ -480,9 +600,10 @@ if __name__ == '__main__':
 
 
 
-    print(f"The catalogue contains {np.sum(table['Confirmed'])} AM CVns and {np.sum(~table['Confirmed'])} candidates")
-    print(f"{np.sum(np.isfinite(table['Period'][table['Confirmed']]))} AM CVns and " + \
+    print(f"The catalogue contains {np.sum(table['Confirmed'])} UCBs and {np.sum(~table['Confirmed'])} candidates")
+    print(f"{np.sum(np.isfinite(table['Period'][table['Confirmed']]))} UCBs and " + \
                     f"{np.sum(np.isfinite(table['Period'][~table['Confirmed']]))} candidates have periods")
+    print(f"There are {np.sum(table['AM_CVn'])} AM CVns and {np.sum(table['He_CV'])} He CVs")
     # print(f"{np.sum(table['Gaia_ID'][table['Confirmed']]!='')} AM CVns and " + \
     #                 f"{np.sum(table['Gaia_ID'][~table['Confirmed']]!='')} candidates have a Gaia crossmatch")
     # print(f"{np.sum(np.isfinite(table['Distance_mean'][table['Confirmed']]))} AM CVns and " + \
@@ -490,5 +611,5 @@ if __name__ == '__main__':
 
 
 
-    print(table)
+    # print(table)
     print('Done') 

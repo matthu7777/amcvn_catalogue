@@ -38,7 +38,7 @@ def model_galaxy_dist(fname=None, redo=False, scale_height=120, scale_radius=300
         # gal_n,_ = np.histogram(dist, bins=bins, weights=np.ones(len(dist))/len(dist))
         gal_n = np.array(range(len(dist))) / len(dist)
 
-        gal_n *= scale / gal_n[mg.find_nearest(dist, 100, True)]
+        gal_n *= scale / gal_n[mg.find_nearest(dist, 40, True)]
 
         np.savetxt(fname, np.column_stack([dist,gal_n]))
 
@@ -77,11 +77,20 @@ if __name__ == '__main__':
     # gal_bins = np.logspace(np.log10(distance.min()), np.log10(distance_limit), 10)
     # gal_bin_log_centres = 10**((np.log10(gal_bins[:-1]) + np.log10(gal_bins[1:])) / 2)
     for scale_height in [300]:
-        scale_factor = 1/1.5
-        gal_dist, gal_n = model_galaxy_dist(scale_height=scale_height, redo=False)
+        # scale_factor = 1/1.5
+
+
+        gal_dist, gal_n = model_galaxy_dist(scale_height=scale_height, redo=False, scale=1, thin=10)
+
+        scale_factor = 6e-7*40**3 / gal_n[mg.find_nearest(gal_dist, 40, True)]
+
+
         gal_ok = (gal_dist > 76) & (gal_dist < distance_limit)
         # scale_factor = 1 / gal_n[0]
-        plt.plot(gal_dist[gal_ok], gal_n[gal_ok]*scale_factor, 'k--', label=f"Galactic distribution\n(H={scale_height}pc)")
+        plt.plot(gal_dist[gal_ok], gal_n[gal_ok]*scale_factor, 'k--', label=f"Space density\n(van Roestel+ 2022)")
+
+        plt.fill_between(gal_dist[gal_ok], gal_n[gal_ok]*scale_factor*4/6, gal_n[gal_ok]*scale_factor*12/6, color='grey', zorder=0, alpha=0.5)
+
 
 
     ax.set_xscale('log')

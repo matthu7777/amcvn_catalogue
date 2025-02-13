@@ -51,10 +51,10 @@ if __name__ == '__main__':
     ### Divided by disc state and other properties
 
 
-    direct = table['Disk_state'] == 'direct'
-    high = table['Disk_state'] == 'high'
-    outburst = table['Disk_state'] == 'outburst'
-    low = table['Disk_state'] == 'low'
+    direct = table['Disk_state'] == 'Direct'
+    high = table['Disk_state'] == 'High'
+    outburst = table['Disk_state'] == 'Outburst'
+    low = table['Disk_state'] == 'Low'
     eclipsing = table['Period_method'] == 'Eclipses'
 
     axs[1].set_ylabel('Fraction of class known')
@@ -79,13 +79,14 @@ if __name__ == '__main__':
     
     ### Annotate some surveys
 
-    axs[0].vlines([1998,2008,2013,2018], axs[0].get_ylim()[0], axs[0].get_ylim()[1], color='grey', alpha=0.5, ls='--')
-    axs[1].vlines([1998,2008,2013,2018], axs[1].get_ylim()[0], axs[1].get_ylim()[1], color='grey', alpha=0.5, ls='--')
+    axs[0].vlines([1998,2008,2009,2018], axs[0].get_ylim()[0], axs[0].get_ylim()[1], color='grey', alpha=0.5, ls='--')
+    axs[1].vlines([1998,2008,2009,2018], axs[1].get_ylim()[0], axs[1].get_ylim()[1], color='grey', alpha=0.5, ls='--')
 
-    axs[0].annotate('SDSS', (1998, axs[0].get_ylim()[1]*0.88), rotation=30, fontsize='small')
-    axs[0].annotate('ASAS-SN', (2008, axs[0].get_ylim()[1]*0.85), rotation=30, fontsize='small')
-    axs[0].annotate('PTF', (2013, axs[0].get_ylim()[1]*0.85), rotation=30, fontsize='small')
-    axs[0].annotate('ZTF', (2018, axs[0].get_ylim()[1]*0.88), rotation=30, fontsize='small')
+    for ax in (axs if separate else [axs[0]]):
+        ax.annotate('SDSS', (1998, ax.get_ylim()[1]*0.88), rotation=30, fontsize='small')
+        ax.annotate('ASAS-SN', (2008, ax.get_ylim()[1]*0.85), rotation=30, fontsize='small')
+        ax.annotate('PTF', (2009, ax.get_ylim()[1]*0.8), rotation=30, fontsize='small')
+        ax.annotate('ZTF', (2018, ax.get_ylim()[1]*0.88), rotation=30, fontsize='small')
 
     if separate:
         plt.figure(1)
